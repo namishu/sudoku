@@ -1,0 +1,19 @@
+# Distances are in millimeters; font sizes are in points.
+page:
+  width: 210
+  height: 297
+  margin: 20
+board:
+  width: 110
+  gap: 30
+  line_color: "#1f2c50"
+numbers:
+  font_size: 24
+  color: "#4e596c"
+  answer_color: "#286358"
+  answer_given_color: "#a0a5ae"
+separator:
+  show: true
+  color: "#8590af"
+font: Rubik-Regular.ttf
+bold_font: Rubik-Medium.ttf

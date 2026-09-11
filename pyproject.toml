@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "namishu-sudoku"
+version = "0.1.0"
+description = "Printable Sudoku puzzles as A4 PDFs, with optional answers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT AND OFL-1.1"
+license-files = ["LICENSE", "src/namishu_sudoku/data/OFL.txt"]
+authors = [{name = "Namishu"}]
+keywords = ["sudoku", "pdf", "printable", "puzzles"]
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = ["PyYAML>=6.0", "reportlab>=4.0"]
+
+[project.urls]
+Homepage = "https://github.com/namishu/sudoku"
+Repository = "https://github.com/namishu/sudoku"
+Issues = "https://github.com/namishu/sudoku/issues"
+
+[project.scripts]
+namishu-sudoku = "namishu_sudoku.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.11", "pypdf>=5.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+namishu_sudoku = ["data/*.yaml", "data/*.ttf", "data/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["B", "C4", "E4", "E501", "E7", "E9", "F", "I", "RUF012", "SIM", "UP"]
