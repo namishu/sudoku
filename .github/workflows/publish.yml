@@ -62,6 +62,22 @@ jobs:
           if os.environ['RELEASE_TAG'] != expected:
               raise SystemExit(f"Release tag must be {expected}")
           PY
+      - name: Prepare README links for PyPI
+        run: |
+          uv run --frozen python - <<'PYPI_README'
+          import os
+          import re
+          from pathlib import Path
+          ref = os.environ["GITHUB_SHA"]
+          root = f"https://github.com/namishu/sudoku/blob/{ref}/"
+          raw = f"https://raw.githubusercontent.com/namishu/sudoku/{ref}/"
+          path = Path("README.md")
+          text = path.read_text(encoding="utf-8")
+          text = re.sub(r'href="(?!https?://|#)([^\"]+)"', lambda m: f'href="{root}{m[1]}"', text)
+          text = re.sub(r'src="(?!https?://)([^\"]+)"', lambda m: f'src="{raw}{m[1]}"', text)
+          text = text.replace("https://github.com/namishu/sudoku/blob/main/", root)
+          path.write_text(text, encoding="utf-8")
+          PYPI_README
       - name: Build distributions
         run: uv build --out-dir dist
       - name: Validate PyPI metadata and README
