@@ -106,10 +106,13 @@ jobs:
     if: >-
       github.event_name == 'release' &&
       !github.event.release.prerelease &&
+      !github.event.repository.private &&
       vars.PYPI_PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # No environment: this private organization repository uses GitHub Free.
+    environment:
+      name: pypi
+      url: https://pypi.org/project/namishu-sudoku/
     permissions:
       id-token: write
     steps:
