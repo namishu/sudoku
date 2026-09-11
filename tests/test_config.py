@@ -63,3 +63,20 @@ def test_config_snapshots_are_independent(tmp_path):
     config = load_config()
     config["numbers"]["font_size"] = 100
     assert load_config()["numbers"]["font_size"] == 24
+
+
+@pytest.mark.parametrize(
+    ("section", "key"),
+    [
+        ("board", "line_color"),
+        ("numbers", "color"),
+        ("numbers", "answer_color"),
+        ("numbers", "answer_given_color"),
+        ("separator", "color"),
+    ],
+)
+def test_none_color_is_rejected_when_loading_config(tmp_path, section, key):
+    config = tmp_path / "bad.yaml"
+    config.write_text(f'{section}: {{{key}: "None"}}\n', encoding="utf-8")
+    with pytest.raises(ValueError, match=rf"Invalid {section}\.{key}: expected a color string"):
+        load_config(config)

@@ -53,7 +53,8 @@ def load_config(config_path: str | Path | None = None) -> dict:
                 try:
                     if not isinstance(value, str):
                         raise ValueError
-                    toColor(value)
+                    if toColor(value) is None:
+                        raise ValueError
                 except (ValueError, TypeError, AttributeError) as exc:
                     raise ValueError(f"Invalid {name}: expected a color string") from exc
             else:
